@@ -1,0 +1,28 @@
+{% extends "accounts/base.html" %}
+{% block title %}
+Show Cleared Down Data
+{% endblock %}
+{% block content %}
+{% for cleared in clearedreserve %}
+<p>Date for which the amount is cleared: {{ cleared.date }}</p>
+<p>Cleared amount for time block: {{ cleared.time_block }}</p>
+<p>Time at which request was carried out: {{ cleared.created_at }}</p>
+<table>
+    {% for clearedentity in cleared.clearentitydown_set.all %}
+    <tr>
+        <td>
+            {{ clearedentity.name }}
+        </td>
+        <td>
+            {{ clearedentity.amount }}
+        </td>
+        <td>
+            {{ clearedentity.price }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+
+
+{% endblock %}
