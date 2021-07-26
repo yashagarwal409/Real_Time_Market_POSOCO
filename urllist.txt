@@ -1,0 +1,15 @@
+Accounts app:
+accounts/base.html - used as the base for multiple pages
+accounts/signup.html
+registrations/login.html
+
+Buyer app:
+buyer/cleareddowndata.html
+buyer/clearedupdata.html
+buyer/display.html
+buyer/datform.html
+buyer/upreserve.html
+
+Seller app:
+seller/datform.html
+seller/placebid.html
