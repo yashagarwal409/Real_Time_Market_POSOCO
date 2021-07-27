@@ -6,7 +6,7 @@ import datetime
 #from datetime import datetime, time
 from django.utils import timezone
 from django.conf import settings
-from buyer.models import TimeBlock
+from buyer.models import TimeBlock, ClearEntityDown, ClearEntityUp
 User = settings.AUTH_USER_MODEL
 
 
@@ -132,3 +132,33 @@ def datbidlist(response, upordown):
         return HttpResponse("The data has been entered successfully.")
     else:
         return render(response, "seller/datform.html", {'timeblock': TimeBlock.objects.all()})
+
+
+def cleardataup(response, rtmordat):
+    user = response.user
+    is_rtm = False
+    is_up = False
+    is_dat = False
+    is_down = False
+    if rtmordat == "rtm":
+        is_rtm = True
+    if rtmordat == "dat":
+        is_dat = True
+    objects = ClearEntityUp.objects.all().filter(name=user.username,
+                                                 clearedreserve__is_rtm=is_rtm, clearedreserve__is_dat=is_dat).order_by('clearedreserve__date').order_by('clearedreserve__time_block')
+    return render(response, 'seller/clearedupdata.html', {"objects": objects})
+
+
+def cleardatadown(response, rtmordat):
+    user = response.user
+    is_rtm = False
+    is_up = False
+    is_dat = False
+    is_down = False
+    if rtmordat == "rtm":
+        is_rtm = True
+    if rtmordat == "dat":
+        is_dat = True
+    objects = ClearEntityDown.objects.all().filter(name=user.username,
+                                                   clearedreserve__is_rtm=is_rtm, clearedreserve__is_dat=is_dat).order_by('clearedreserve__date').order_by('clearedreserve__time_block')
+    return render(response, 'seller/cleareddowndata.html', {"objects": objects})

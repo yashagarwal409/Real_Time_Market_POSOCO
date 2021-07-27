@@ -3,24 +3,55 @@
 Show Cleared Up Data
 {% endblock %}
 {% block content %}
-{% for cleared in clearedreserve %}
-<p>Date for which the amount is cleared: {{ cleared.date }}</p>
-<p>Cleared amount for time block: {{ cleared.time_block }}</p>
-<p>Market Clearing Price: {{ cleared.mcp }}</p>
-<p>Time at which request was carried out: {{ cleared.created_at }}</p>
 <table>
-    {% for clearedentity in cleared.clearentityup_set.all %}
     <tr>
         <td>
-            {{ clearedentity.name }}
+            Date
         </td>
         <td>
-            {{ clearedentity.amount }}
+            Time Block
+        </td>
+        <td>
+            Market Clearing Price
+        </td>
+        <td>
+            Details of cleared quantities
+        </td>
+    </tr>
+    {% for cleared in clearedreserve %}
+    <tr>
+        <td>
+            {{ cleared.date }}
+        </td>
+        <td>
+            {{ cleared.time_block }}
+        </Td>
+        <td>
+            {{ cleared.mcp }}
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Quantity/Volume
+                    </td>
+                </tr>
+                {% for clearedentity in cleared.clearentityup_set.all %}
+                <tr>
+                    <td>
+                        {{ clearedentity.name }}
+                    </td>
+                    <td>
+                        {{ clearedentity.amount }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </td>
     </tr>
     {% endfor %}
 </table>
-{% endfor %}
-
-
 {% endblock %}

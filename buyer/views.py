@@ -469,7 +469,7 @@ def dispclearup(response, type):
     if(type == "rtm"):
         is_rtm = True
     clearedreserve = response.user.clearedreserveup_set.filter(
-        is_dat=is_dat, is_rtm=is_rtm)
+        is_dat=is_dat, is_rtm=is_rtm).order_by('date').order_by('time_block')
     return render(response, 'buyer/clearedupdata.html', {"clearedreserve": clearedreserve})
 
 

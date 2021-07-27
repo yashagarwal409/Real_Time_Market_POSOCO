@@ -1,0 +1,38 @@
+{% extends "accounts/base.html" %}
+{% block title %}
+Show Cleared Up Data
+{% endblock %}
+{% block content %}
+<table>
+    <tr>
+        <td>
+            Date
+        </td>
+        <td>
+            Time Block
+        </td>
+        <td>
+            Amount
+        </td>
+        <td>
+            Quantity
+        </td>
+    </tr>
+    {% for object in objects %}
+    <tr>
+        <td>
+            {{object.clearedreserve.date}}
+        </td>
+        <td>
+            {{object.clearedreserve.time_block}}
+        </td>
+        <td>
+            {{object.clearedreserve.mcp}}
+        </td>
+        <td>
+            {{object.amount}}
+        </td>
+    </tr>
+    {% endfor %}
+
+    {% endblock %}
