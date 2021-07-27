@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .forms import bidform, rtmform
 from buyer.models import Reserve
 import datetime
-from datetime import datetime, time
+#from datetime import datetime, time
 from django.utils import timezone
 from django.conf import settings
 from buyer.models import TimeBlock
@@ -18,6 +18,10 @@ def is_time_between(begin_time, end_time):
     else:  # crosses midnight
         return check_time >= begin_time or check_time <= end_time
 # Create your views here.
+
+
+def home(response):
+    return render(response, 'seller/home.html', {})
 
 
 def placebid(response, rtmordat, upordown):
@@ -54,26 +58,26 @@ def rtmbid(response, upordown):
         is_up = True
     if upordown == "down":
         is_down = True
-    objectlist = Reserve.objects.filter(name='AGBPP-GAS').order_by('time')
-    timelist = []
-    for object in objectlist:
-        timelist.append(object.time)
-    for i in range(1, 96, 2):
-        times = timelist[i]
-        begt = datetime.strptime(times[0:5], '%H:%M').time()
-        if i != 95:
-            endt = datetime.strptime(times[6:11], '%H:%M').time()
-        else:
-            endt = datetime.strptime('00:00', '%H:%M').time()
-        if(is_time_between(begt, endt)):
-            form = rtmform(
-                timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
-            break
     if response.method == "POST":
         user = response.user
         user.bid_set.create(
             time=response.POST.get('time'), date=response.POST.get('date'), volume=response.POST.get('volume'), price=response.POST.get('price'), is_up=is_up, is_down=is_down, is_rtm=True, is_dat=False)
         return HttpResponse("Data Entered into the Database successfully!")
+    objectlist = TimeBlock.objects.all()
+    timelist = []
+    for object in objectlist:
+        timelist.append(object.time)
+    for i in range(1, 96, 2):
+        times = timelist[i]
+        begt = datetime.datetime.strptime(times[0:5], '%H:%M').time()
+        if i != 95:
+            endt = datetime.datetime.strptime(times[6:11], '%H:%M').time()
+        else:
+            endt = datetime.datetime.strptime('00:00', '%H:%M').time()
+        if(is_time_between(begt, endt)):
+            form = rtmform(
+                timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
+            break
     if form == None:
         return HttpResponse("Please login after a while. The portal is down.")
     return render(response, 'seller/placebid.html', {'form': form})

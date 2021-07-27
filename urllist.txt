@@ -6,10 +6,50 @@ registrations/login.html
 Buyer app:
 buyer/cleareddowndata.html
 buyer/clearedupdata.html
-buyer/display.html
+buyer/displaydata.html
 buyer/datform.html
 buyer/upreserve.html
 
 Seller app:
 seller/datform.html
 seller/placebid.html
+
+Needed webpages:
+buyer: home: buyer/home.html
+       update data:
+		update rtm data:
+			download new data.
+			refresh existing data
+		update dat data:
+			download new data
+			refresh existing data
+	display data:
+		display rtm data:
+			display schedule
+			display declarations
+			display reserves
+	rtm market:
+		place TRAS up bid
+		place TRAS down bid
+	dat market:
+		place TRAS up bidd
+		place TRAS down bid
+	display cleared bids:
+		rtm:
+			display clearedup data
+			display cleareddown data
+		dat:
+			display clearedup data
+			display cleareddown data
+		
+seller: home: seller/home.html
+	display bids
+		up
+		down
+	display cleared data:
+		rtm
+			display clearedupdata
+			display cleareddowndata
+		dat
+			display clearedupdata
+			display cleareddowndata

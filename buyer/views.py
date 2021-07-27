@@ -247,37 +247,51 @@ def upreservertm(response):
     if response.method == 'POST':
         user = response.user
         form = response.POST
+        messagelist = []
         bids = Bid.objects.filter(
             time=form.get('time'), date=form.get('date'), is_up=True, is_rtm=True).order_by('price')
         quantity = float(form.get('quantity'))
         sum = 0
+        time = form.get('time')
         for bid in bids:
             sum = sum+float(bid.volume)
+        if sum == 0 or quantity == 0:
+            message = "Time Block:"+time+" Cleared Quantity: 0"
+            messagelist.append(message)
+            return render(response, 'buyer/success.html', {"messages": messagelist})
         if sum < quantity:
-            return HttpResponse("The entered amount cannot be cleared.")
+            message = "Time Block:"+time+" Cleared Quantity: "+str(sum)
+            messagelist.append(message)
+            # return redirect(reverse('runcodedatup'))
+            # return HttpResponse("The entered amount cannot be cleared.")
         else:
+            message = "Time Block:"+time + \
+                " Cleared Quantity: "+str(quantity)
+            messagelist.append(message)
+        for bid in bids:
             mcp = 0
+            for bid in bids:
+                mcp = float(bid.price)
             for bid in bids:
                 if(float(bid.volume) < float(quantity)):
                     quantity = quantity-float(bid.volume)
                 else:
                     mcp = float(bid.price)
                     break
-            quantity = float(form.get('quantity'))
-            cleared = user.clearedreserveup_set.create(
-                mcp=mcp, time_block=form.get('time'), date=form.get('date'), is_rtm=True)
-            for bid in bids:
-                if(float(bid.volume) < float(quantity)):
-                    cleared.clearentityup_set.create(
-                        name=bid.seller.username, amount=bid.volume)
-                    quantity = quantity-float(bid.volume)
-                else:
-                    cleared.clearentityup_set.create(
-                        name=bid.seller.username, amount=quantity)
-                    break
-            return HttpResponse("The entered amount has been cleared.")
-    objectlist = Reserve.objects.filter(
-        name='AGBPP-GAS', date=timezone.now()).order_by('time')
+        quantity = float(form.get('quantity'))
+        cleared = user.clearedreserveup_set.create(
+            mcp=mcp, time_block=form.get('time'), date=form.get('date'), is_rtm=True)
+        for bid in bids:
+            if(float(bid.volume) < float(quantity)):
+                cleared.clearentityup_set.create(
+                    name=bid.seller.username, amount=bid.volume)
+                quantity = quantity-float(bid.volume)
+            else:
+                cleared.clearentityup_set.create(
+                    name=bid.seller.username, amount=quantity)
+                break
+        return render(response, 'buyer/success.html', {"messages": messagelist})
+    objectlist = TimeBlock.objects.all()
     timelist = []
     for object in objectlist:
         timelist.append(object.time)
@@ -306,29 +320,44 @@ def downreservertm(response):
     if response.method == 'POST':
         user = response.user
         form = response.POST
+        messagelist = []
         bids = Bid.objects.filter(
             time=form.get('time'), date=form.get('date'), is_down=True, is_rtm=True).order_by('-price')
         quantity = float(form.get('quantity'))
         sum = 0
+        time = form.get('time')
         for bid in bids:
             sum = sum+float(bid.volume)
+        if sum == 0 or quantity == 0:
+            message = "Time Block:"+time+" Cleared Quantity: 0"
+            messagelist.append(message)
+            return render(response, 'buyer/success.html', {"messages": messagelist})
         if sum < quantity:
-            return HttpResponse("The entered amount cannot be cleared.")
+            message = "Time Block:"+time+" Cleared Quantity: "+str(sum)
+            messagelist.append(message)
+            # return redirect(reverse('runcodedatup'))
+            # return HttpResponse("The entered amount cannot be cleared.")
         else:
-            quantity = float(form.get('quantity'))
-            cleared = user.clearedreservedown_set.create(
-                time_block=form.get('time'), date=form.get('date'), is_rtm=True)
-            for bid in bids:
-                if(float(bid.volume) < float(quantity)):
-                    cleared.clearentitydown_set.create(
-                        name=bid.seller.username, amount=bid.volume, price=bid.price)
-                    quantity = quantity-float(bid.volume)
-                else:
-                    cleared.clearentitydown_set.create(
-                        name=bid.seller.username, amount=quantity, price=bid.price)
-                    break
-            return HttpResponse("The entered amount has been cleared.")
-    timelist = TimeBlock.objects.all()
+            message = "Time Block:"+time + \
+                " Cleared Quantity: "+str(quantity)
+            messagelist.append(message)
+        quantity = float(form.get('quantity'))
+        cleared = user.clearedreservedown_set.create(
+            time_block=form.get('time'), date=form.get('date'), is_rtm=True)
+        for bid in bids:
+            if(float(bid.volume) < float(quantity)):
+                cleared.clearentitydown_set.create(
+                    name=bid.seller.username, amount=bid.volume, price=bid.price)
+                quantity = quantity-float(bid.volume)
+            else:
+                cleared.clearentitydown_set.create(
+                    name=bid.seller.username, amount=quantity, price=bid.price)
+                break
+        return render(response, 'buyer/success.html', {"messages": messagelist})
+    objectlist = TimeBlock.objects.all()
+    timelist = []
+    for object in objectlist:
+        timelist.append(object.time)
     for i in range(1, 96, 2):
         times = timelist[i]
         begt = datetime.datetime.strptime(times[0:5], '%H:%M').time()
@@ -460,6 +489,7 @@ def runcodedatup(response):
     if response.method == 'POST':
         user = response.user
         form = response.POST
+        messagelist = []
         for time in TimeBlock.objects.all():
             id = 'q'+str(time.id)
             val = response.POST.get(id)
@@ -471,31 +501,40 @@ def runcodedatup(response):
                 sum = 0
                 for bid in bids:
                     sum = sum+float(bid.volume)
-
+                if sum == 0:
+                    message = "Time Block:"+time+" Cleared Quantity: 0"
+                    messagelist.append(message)
+                    continue
                 if sum < quantity:
-                    return redirect(reverse('runcodedatup'))
-                    return HttpResponse("The entered amount cannot be cleared.")
+                    message = "Time Block:"+time+" Cleared Quantity: "+str(sum)
+                    messagelist.append(message)
+                    # return redirect(reverse('runcodedatup'))
+                    # return HttpResponse("The entered amount cannot be cleared.")
                 else:
-                    mcp = 0
-                    for bid in bids:
-                        if(float(bid.volume) < float(quantity)):
-                            quantity = quantity-float(bid.volume)
-                        else:
-                            mcp = float(bid.price)
-                            break
-                    quantity = float(val)
-                    cleared = user.clearedreserveup_set.create(
-                        mcp=mcp, time_block=time, date=response.POST.get('date'), is_dat=True)
-                    for bid in bids:
-                        if(float(bid.volume) < float(quantity)):
-                            cleared.clearentityup_set.create(
-                                name=bid.seller.username, amount=bid.volume)
-                            quantity = quantity-float(bid.volume)
-                        else:
-                            cleared.clearentityup_set.create(
-                                name=bid.seller.username, amount=quantity)
-                            break
-        return HttpResponse("The entered amount has been cleared.")
+                    message = "Time Block:"+time + \
+                        " Cleared Quantity: "+str(quantity)
+                    messagelist.append(message)
+                for bid in bids:
+                    mcp = float(bid.price)
+                for bid in bids:
+                    if(float(bid.volume) < float(quantity)):
+                        quantity = quantity-float(bid.volume)
+                    else:
+                        mcp = float(bid.price)
+                        break
+                quantity = float(val)
+                cleared = user.clearedreserveup_set.create(
+                    mcp=mcp, time_block=time, date=response.POST.get('date'), is_dat=True)
+                for bid in bids:
+                    if(float(bid.volume) < float(quantity)):
+                        cleared.clearentityup_set.create(
+                            name=bid.seller.username, amount=bid.volume)
+                        quantity = quantity-float(bid.volume)
+                    else:
+                        cleared.clearentityup_set.create(
+                            name=bid.seller.username, amount=quantity)
+                        break
+        return render(response, 'buyer/success.html', {"messages": messagelist})
     else:
         return render(response, "buyer/datform.html", {'timeblock': TimeBlock.objects.all()})
 
@@ -504,18 +543,32 @@ def runcodedatdown(response):
     if response.method == 'POST':
         user = response.user
         form = response.POST
+        messagelist = []
         for time in TimeBlock.objects.all():
             id = 'q'+str(time.id)
             val = response.POST.get(id)
             bids = Bid.objects.filter(
                 time=time.time, date=form.get('date'), is_down=True, is_dat=True).order_by('-price')
             quantity = float(val)
-            sum = 0
-            for bid in bids:
-                sum = sum+float(bid.volume)
-            if sum < quantity:
-                return HttpResponse("The entered amount cannot be cleared.")
-            else:
+            if quantity > 0:
+                sum = 0
+                for bid in bids:
+                    sum = sum+float(bid.volume)
+                if sum == 0:
+                    message = "Time Block:"+time.time+" Cleared Quantity: 0"
+                    messagelist.append(message)
+                    continue
+                if sum < quantity:
+                    message = "Time Block:"+time.time + \
+                        " Cleared Quantity: "+str(sum)
+                    messagelist.append(message)
+                    # return redirect(reverse('runcodedatup'))
+                    # return HttpResponse("The entered amount cannot be cleared.")
+                else:
+                    message = "Time Block:"+time.time + \
+                        " Cleared Quantity: "+str(quantity)
+                    messagelist.append(message)
+
                 quantity = float(val)
                 cleared = user.clearedreservedown_set.create(
                     time_block=time.time, date=form.get('date'), is_dat=True)
@@ -528,7 +581,7 @@ def runcodedatdown(response):
                         cleared.clearentitydown_set.create(
                             name=bid.seller.username, amount=quantity, price=bid.price)
                         break
-            return HttpResponse("The entered amount has been cleared.")
+        return render(response, 'buyer/success.html', {"messages": messagelist})
     else:
         return render(response, "buyer/datform.html", {'timeblock': TimeBlock.objects.all()})
 

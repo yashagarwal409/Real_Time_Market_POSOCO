@@ -33,5 +33,5 @@ def sellersignup(response):
 def redir(response):
     if response.user.is_authenticated and response.user.is_buyer:
         return redirect('bhome')
-    else:
-        return HttpResponse('<p>Not logged in</p>')
+    elif response.user.is_authenticated and response.user.is_seller:
+        return redirect('shome')
