@@ -1,0 +1,9 @@
+{% extends "accounts/base.html" %}
+{% block title%}
+Success
+{% endblock %}
+{% block content %}
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+{% endblock %}

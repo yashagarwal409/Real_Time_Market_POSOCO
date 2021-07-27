@@ -14,18 +14,21 @@ class TimeBlock(models.Model):
 
 
 class Reserve(models.Model):
+    date = models.DateField(default=timezone.now)
     time = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
 
 
 class Declaration(models.Model):
+    date = models.DateField(default=timezone.now)
     time = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
     quantity = models.DecimalField(max_digits=5, decimal_places=2)
 
 
 class Schedule(models.Model):
+    date = models.DateField(default=timezone.now)
     time = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
     quantity = models.DecimalField(max_digits=5, decimal_places=2)

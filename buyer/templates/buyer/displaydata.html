@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            margin-left: -5px;
+            margin-right: -5px;
+        }
+
+        .column {
+            flex: 20%;
+            padding: 5px;
+        }
+
+        #col1 {
+            flex: 40%;
+            padding: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <td>
+            <table>
+                <tr>
+                    TIME BLOCK
+                </tr>
+                {% for i in list1 %}
+                <tr>
+                    <td>{{ i.time }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    AGBPP-GAS
+                </tr>
+                {% for i in list1 %}
+                <tr>
+                    <td>{{ i.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    AGTCCPP-GAS
+                </tr>
+                {% for i in list2 %}
+                <tr>
+                    <td>{{ i.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    BGTPP
+                </tr>
+                {% for i in list3 %}
+                <tr>
+                    <td>{{ i.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    PALATANA-GAS
+                </tr>
+                {% for i in list4 %}
+                <tr>
+                    <td>{{ i.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    TOTAL
+                </tr>
+                {% for i in list5 %}
+                <tr>
+                    <td>{{ i }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+
+    </table>
+
+
+</body>
+
+</html>

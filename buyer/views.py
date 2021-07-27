@@ -1,5 +1,5 @@
 import datetime
-from datetime import datetime, time
+#from datetime import datetime, time
 from django.core.checks import messages
 from django.shortcuts import render, redirect, HttpResponse
 from django.utils import timezone
@@ -8,6 +8,8 @@ from openpyxl.utils import get_column_letter
 from .models import Declaration, Reserve, Schedule, TimeBlock
 from .extractdata import extract
 from .margincalculate import calculate
+from .extractdatadat import extractdat
+from .margincalculatedat import calculatedat
 from .forms import UpReserveForm, rtmform
 from seller.models import Bid
 from django.conf import settings
@@ -28,20 +30,19 @@ def home(response):
     return render(response, 'buyer/home.html', {})
 
 
-def update(response):
+def updatertm(response):
     mar = load_workbook(r'C:\Users\yagar\Downloads\margin.xlsx')
-    Reserve.objects.all().delete()
+    Reserve.objects.filter(date=timezone.now()).delete()
     margin = mar.active
     for row in range(6, 102):
         for col in range(3, 15):
             cell = get_column_letter(col)
             name = str(margin[cell+'5'].value).partition('(')[0]
             if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
-                print(name)
                 Reserve.objects.create(
                     time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
     mar = load_workbook(r'C:\Users\yagar\Downloads\dec.xlsx')
-    Declaration.objects.all().delete()
+    Declaration.objects.filter(date=timezone.now()).delete()
     margin = mar.active
     for row in range(6, 102):
         for col in range(3, 15):
@@ -51,7 +52,7 @@ def update(response):
                 Declaration.objects.create(
                     time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
     mar = load_workbook(r'C:\Users\yagar\Downloads\sec.xlsx')
-    Schedule.objects.all().delete()
+    Schedule.objects.filter(date=timezone.now()).delete()
     margin = mar.active
     for row in range(6, 102):
         for col in range(3, 15):
@@ -63,34 +64,105 @@ def update(response):
     return HttpResponse("The values have been entered into the table successfully")
 
 
-def refresh(response):
+def updatedat(response):
+    mar = load_workbook(r'C:\Users\yagar\Downloads\margin1.xlsx')
+    date = timezone.now() + datetime.timedelta(days=1)
+    Reserve.objects.filter(date=date).delete()
+    margin = mar.active
+    for row in range(6, 102):
+        for col in range(3, 15):
+            cell = get_column_letter(col)
+            name = str(margin[cell+'5'].value).partition('(')[0]
+            if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
+                Reserve.objects.create(date=date,
+                                       time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
+    mar = load_workbook(r'C:\Users\yagar\Downloads\dec1.xlsx')
+    Declaration.objects.filter(date=date).delete()
+    margin = mar.active
+    for row in range(6, 102):
+        for col in range(3, 15):
+            cell = get_column_letter(col)
+            name = str(margin[cell+'5'].value).partition('(')[0]
+            if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
+                Declaration.objects.create(date=date,
+                                           time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
+    mar = load_workbook(r'C:\Users\yagar\Downloads\sec1.xlsx')
+    Schedule.objects.filter(date=date).delete()
+    margin = mar.active
+    for row in range(6, 102):
+        for col in range(3, 15):
+            cell = get_column_letter(col)
+            name = str(margin[cell+'5'].value).partition('(')[0]
+            if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
+                Schedule.objects.create(date=date,
+                                        time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
+    return HttpResponse("The values have been entered into the table successfully")
+
+
+def refreshrtm(response):
     extract()
     calculate()
-    return HttpResponse("The values have been refreshed")
+    return HttpResponse("The values have been downloaded")
 
 
-def reserve(response):
-    list1 = Reserve.objects.filter(name='AGBPP-GAS')
-    list2 = Reserve.objects.filter(name='AGTCCPP-GAS')
-    list3 = Reserve.objects.filter(name='BGTPP')
-    list4 = Reserve.objects.filter(name='PALATANA-GAS')
-    return render(response, 'buyer/display.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4})
+def refreshdat(response):
+    extractdat()
+    calculatedat()
+    return HttpResponse("The values have been downloaded")
 
 
-def declaration(response):
-    list1 = Declaration.objects.filter(name='AGBPP-GAS')
-    list2 = Declaration.objects.filter(name='AGTCCPP-GAS')
-    list3 = Declaration.objects.filter(name='BGTPP')
-    list4 = Declaration.objects.filter(name='PALATANA-GAS')
-    return render(response, 'buyer/display.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4})
+def reserve(response, datorrtm):
+    if(datorrtm == "dat"):
+        date = timezone.now() + datetime.timedelta(days=1)
+    elif datorrtm == "rtm":
+        date = timezone.now()
+    list1 = Reserve.objects.filter(name='AGBPP-GAS', date=date)
+    list2 = Reserve.objects.filter(name='AGTCCPP-GAS', date=date)
+    list3 = Reserve.objects.filter(name='BGTPP', date=date)
+    list4 = Reserve.objects.filter(name='PALATANA-GAS', date=date)
+    list5 = []
+    for i in range(0, 96):
+        total = 0
+        total = list1[i].quantity+list2[i].quantity + \
+            list3[i].quantity+list4[i].quantity
+        list5.append(total)
+    return render(response, 'buyer/displaydata.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4, "list5": list5})
 
 
-def schedule(response):
-    list1 = Schedule.objects.filter(name='AGBPP-GAS')
-    list2 = Schedule.objects.filter(name='AGTCCPP-GAS')
-    list3 = Schedule.objects.filter(name='BGTPP')
-    list4 = Schedule.objects.filter(name='PALATANA-GAS')
-    return render(response, 'buyer/display.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4})
+def declaration(response, datorrtm):
+    if(datorrtm == "dat"):
+        date = timezone.now() + datetime.timedelta(days=1)
+    elif datorrtm == "rtm":
+        date = timezone.now()
+    list1 = Declaration.objects.filter(name='AGBPP-GAS', date=date)
+    list2 = Declaration.objects.filter(name='AGTCCPP-GAS', date=date)
+    list3 = Declaration.objects.filter(name='BGTPP', date=date)
+    list4 = Declaration.objects.filter(name='PALATANA-GAS', date=date)
+    list5 = []
+    for i in range(0, 96):
+        total = 0
+        total = list1[i].quantity+list2[i].quantity + \
+            list3[i].quantity+list4[i].quantity
+        list5.append(total)
+    return render(response, 'buyer/displaydata.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4, "list5": list5})
+
+
+def schedule(response, datorrtm):
+    if(datorrtm == "dat"):
+        date = timezone.now() + datetime.timedelta(days=1)
+    elif datorrtm == "rtm":
+        date = timezone.now()
+    list1 = Schedule.objects.filter(name='AGBPP-GAS', date=date)
+    list2 = Schedule.objects.filter(name='AGTCCPP-GAS', date=date)
+    list3 = Schedule.objects.filter(name='BGTPP', date=date)
+    list4 = Schedule.objects.filter(name='PALATANA-GAS', date=date)
+    list5 = []
+    for i in range(0, 96):
+        total = 0
+        total = list1[i].quantity+list2[i].quantity + \
+            list3[i].quantity+list4[i].quantity
+        list5.append(total)
+    return render(response, 'buyer/displaydata.html', {"list1": list1, "list2": list2, "list3": list3, "list4": list4, "list5": list5})
 
 
 def upreserve(response):
@@ -204,17 +276,18 @@ def upreservertm(response):
                         name=bid.seller.username, amount=quantity)
                     break
             return HttpResponse("The entered amount has been cleared.")
-    objectlist = Reserve.objects.filter(name='AGBPP-GAS').order_by('time')
+    objectlist = Reserve.objects.filter(
+        name='AGBPP-GAS', date=timezone.now()).order_by('time')
     timelist = []
     for object in objectlist:
         timelist.append(object.time)
     for i in range(1, 96, 2):
         times = timelist[i]
-        begt = datetime.strptime(times[0:5], '%H:%M').time()
+        begt = datetime.datetime.strptime(times[0:5], '%H:%M').time()
         if i != 95:
-            endt = datetime.strptime(times[6:11], '%H:%M').time()
+            endt = datetime.datetime.strptime(times[6:11], '%H:%M').time()
         else:
-            endt = datetime.strptime('00:00', '%H:%M').time()
+            endt = datetime.datetime.strptime('00:00', '%H:%M').time()
         if(is_time_between(begt, endt)):
             form = rtmform(
                 timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
@@ -255,17 +328,14 @@ def downreservertm(response):
                         name=bid.seller.username, amount=quantity, price=bid.price)
                     break
             return HttpResponse("The entered amount has been cleared.")
-    objectlist = Reserve.objects.filter(name='AGBPP-GAS').order_by('time')
-    timelist = []
-    for object in objectlist:
-        timelist.append(object.time)
+    timelist = TimeBlock.objects.all()
     for i in range(1, 96, 2):
         times = timelist[i]
-        begt = datetime.strptime(times[0:5], '%H:%M').time()
+        begt = datetime.datetime.strptime(times[0:5], '%H:%M').time()
         if i != 95:
-            endt = datetime.strptime(times[6:11], '%H:%M').time()
+            endt = datetime.datetime.strptime(times[6:11], '%H:%M').time()
         else:
-            endt = datetime.strptime('00:00', '%H:%M').time()
+            endt = datetime.datetime.strptime('00:00', '%H:%M').time()
         if(is_time_between(begt, endt)):
             form = rtmform(
                 timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])

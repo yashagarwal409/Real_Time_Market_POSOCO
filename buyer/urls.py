@@ -3,11 +3,13 @@ from django.urls import path
 from .views import *
 urlpatterns = [
     path('home/', home, name='bhome'),
-    path('update/', update, name='update'),
-    path('reserve/', reserve, name='reserves'),
-    path('refresh', refresh, name='refresh'),
-    path('declaration/', declaration, name='declaration'),
-    path('schedule/', schedule, name='schedule'),
+    path('update/rtm', updatertm, name='updatertm'),
+    path('update/dat', updatedat, name='updatedat'),
+    path('refresh/dat', refreshdat, name='refreshdat'),
+    path('reserve/<str:datorrtm>', reserve, name='reserves'),
+    path('refresh/rtm', refreshrtm, name='refreshrtm'),
+    path('declaration/<str:datorrtm>', declaration, name='declaration'),
+    path('schedule/<str:datorrtm>', schedule, name='schedule'),
     path('upreserve/dat', upreserve, name='upreserve'),
     path('downreserve/dat', downreserve, name='downreserve'),
     path('clearedreserveup/<str:type>/', dispclearup, name='clearedreserveup'),
