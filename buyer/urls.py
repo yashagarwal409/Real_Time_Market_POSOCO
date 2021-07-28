@@ -21,7 +21,6 @@ urlpatterns = [
          dispcleardown, name='clearedreservedown'),
     path('upreservertm', upreservertm, name='upreservertm'),
     path('downreservertm/', downreservertm, name='downreservertm'),
-    path('downreservedat/', downreservedat, name='downreservertm'),
     path('upreservedat', upreservedat, name='upreservedat'),
     path('runcodedatup/', runcodedatup, name='runcodedatup'),
     path('runcodedatdown/', runcodedatdown, name='runcodedatdown')

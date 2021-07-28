@@ -77,7 +77,7 @@ def updatertm(response):
             if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
                 Schedule.objects.create(
                     time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
-    return HttpResponse("The values have been entered into the table successfully")
+    return render(response, 'buyer/message.html', {"message": "The Real Time Databases Have Been Updated Successfully!"})
 
 
 def updatedat(response):
@@ -112,19 +112,19 @@ def updatedat(response):
             if(name == 'AGBPP-GAS' or name == 'AGTCCPP-GAS' or name == 'BGTPP' or name == 'PALATANA-GAS'):
                 Schedule.objects.create(date=date,
                                         time=margin['B'+str(row)].value, name=name, quantity=margin[cell+str(row)].value)
-    return HttpResponse("The values have been entered into the table successfully")
+    return render(response, 'buyer/message.html', {"message": "The Day Ahead Databases Have Been Updated Successfully!"})
 
 
 def refreshrtm(response):
     extract()
     calculate()
-    return HttpResponse("The values have been downloaded")
+    return render(response, 'buyer/message.html', {"message": "The New Real Time Data Has Been Downloaded Successfully!"})
 
 
 def refreshdat(response):
     extractdat()
     calculatedat()
-    return HttpResponse("The values have been downloaded")
+    return render(response, 'buyer/message.html', {"message": "The New Real Time Data Has Been Downloaded Successfully!"})
 
 
 def reserve(response, datorrtm):
@@ -323,7 +323,7 @@ def upreservertm(response):
                 timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
             break
     if form == None:
-        return HttpResponse("Please login after a while. The portal is down.")
+        return render(response, 'buyer/message.html', {"message": "Please login after a while. The portal is down."})
     return render(response, 'buyer/upreserve.html', {'form': form})
 
 
@@ -386,7 +386,7 @@ def downreservertm(response):
                 timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
             break
     if form == None:
-        return HttpResponse("Please login after a while. The portal is down.")
+        return render(response, 'buyer/message.html', {"message": "Please login after a while. The portal is down."})
     return render(response, 'buyer/upreserve.html', {'form': form})
 
 

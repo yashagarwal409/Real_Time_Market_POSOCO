@@ -46,18 +46,22 @@ Buyer Home Page
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Up Bid</a>
+            <a href={% url 'runcodedatup' %} class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Up
+                Bid</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Cleared Quantities</a>
+            <a href={% url 'clearedreserveup' "dat" %} class="btn btn-secondary btn-lg btn-block" role="button">Display
+                Cleared Quantities</a>
         </div>
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Down Bid</a>
+            <a href={% url 'runcodedatdown' %} class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Down
+                Bid</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Cleared Quantities</a>
+            <a href={% url 'clearedreservedown' "dat" %} class="btn btn-secondary btn-lg btn-block"
+                role="button">Display Cleared Quantities</a>
         </div>
     </div>
 </div>

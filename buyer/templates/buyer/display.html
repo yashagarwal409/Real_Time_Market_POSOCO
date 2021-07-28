@@ -46,15 +46,18 @@ Buyer Home Page
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Schedule Data</a>
+            <a href={% url 'schedule' "rtm" %} class="btn btn-secondary btn-lg btn-block" role="button">Display Schedule
+                Data</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Declaration Data</a>
+            <a href={% url 'declaration' "rtm" %} class="btn btn-secondary btn-lg btn-block" role="button">Display
+                Declaration Data</a>
         </div>
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves Up Data</a>
+            <a href={% url 'reserves' "rtm" %} class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves
+                Up Data</a>
         </div>
         <div class="col-5">
             <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves Down Data</a>
@@ -68,15 +71,18 @@ Buyer Home Page
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Schedule Data</a>
+            <a href={% url 'schedule' "dat" %} class="btn btn-secondary btn-lg btn-block" role="button">Display Schedule
+                Data</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Declaration Data</a>
+            <a href={% url 'declaration' "dat" %} class="btn btn-secondary btn-lg btn-block" role="button">Display
+                Declaration Data</a>
         </div>
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves Up Data</a>
+            <a href={% url 'reserves' "dat" %} class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves
+                Up Data</a>
         </div>
         <div class="col-5">
             <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Reserves Down Data</a>

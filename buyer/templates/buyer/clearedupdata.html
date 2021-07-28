@@ -1,57 +1,68 @@
-{% extends "accounts/base.html" %}
+{% extends "buyer/base.html" %}
 {% block title %}
 Show Cleared Up Data
 {% endblock %}
 {% block content %}
-<table>
-    <tr>
-        <td>
-            Date
-        </td>
-        <td>
-            Time Block
-        </td>
-        <td>
-            Market Clearing Price
-        </td>
-        <td>
-            Details of cleared quantities
-        </td>
-    </tr>
-    {% for cleared in clearedreserve %}
-    <tr>
-        <td>
-            {{ cleared.date }}
-        </td>
-        <td>
-            {{ cleared.time_block }}
-        </Td>
-        <td>
-            {{ cleared.mcp }}
-        </td>
-        <td>
-            <table>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time Block
+                        </th>
+                        <th>
+                            Market Clearing Price
+                        </th>
+                        <th>
+                            Details of cleared quantities
+                        </th>
+                    </tr>
+                </thead>
+                {% for cleared in clearedreserve %}
                 <tr>
-                    <td>
-                        Name
+                    <td class="align-middle">
+                        {{ cleared.date }}
+                    </td>
+                    <td class="align-middle">
+                        {{ cleared.time_block }}
+                    </Td>
+                    <td class="align-middle">
+                        {{ cleared.mcp }}
                     </td>
                     <td>
-                        Quantity/Volume
-                    </td>
-                </tr>
-                {% for clearedentity in cleared.clearentityup_set.all %}
-                <tr>
-                    <td>
-                        {{ clearedentity.name }}
-                    </td>
-                    <td>
-                        {{ clearedentity.amount }}
+                        <table class="table">
+                            <thead class="thead">
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Quantity/Volume
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            {% for clearedentity in cleared.clearentityup_set.all %}
+                            <tr>
+                                <td>
+                                    {{ clearedentity.name }}
+                                </td>
+                                <td>
+                                    {{ clearedentity.amount }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </td>
                 </tr>
                 {% endfor %}
             </table>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+        </div>
+    </div>
+</div>
 {% endblock %}

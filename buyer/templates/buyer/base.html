@@ -26,14 +26,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'bhome' %}>Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href={% url 'update' %}>Update Data</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href={% url 'display' %}>Display Data</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'rtm' %}>Real Time Market</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={% url 'dat' %}>Day Ahead Market</a>
                 </li>
             </ul>
             <span class="navbar-text">

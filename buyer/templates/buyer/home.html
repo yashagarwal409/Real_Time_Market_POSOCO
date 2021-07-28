@@ -40,18 +40,18 @@ Buyer Home Page
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Update Data</a>
+            <a href={% url 'update' %} class="btn btn-secondary btn-lg btn-block" role="button">Update Data</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Display Data</a>
+            <a href={% url 'display' %} class="btn btn-secondary btn-lg btn-block" role="button">Display Data</a>
         </div>
     </div>
     <div class="row justify-content-center top2">
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Access Real Time Market</a>
+            <a href={% url 'rtm' %} class="btn btn-secondary btn-lg btn-block" role="button">Access Real Time Market</a>
         </div>
         <div class="col-5">
-            <a href="#" class="btn btn-secondary btn-lg btn-block" role="button">Access Day Ahead Market</a>
+            <a href={% url 'dat' %} class="btn btn-secondary btn-lg btn-block" role="button">Access Day Ahead Market</a>
         </div>
     </div>
 </div>
