@@ -13,39 +13,51 @@ buyer/upreserve.html
 Seller app:
 seller/datform.html
 seller/placebid.html
-
+rtm-real time market
+dat-day ahead market
 Needed webpages:
-buyer: home: buyer/home.html
-       update data:
-		update rtm data:
-			download new data.
-			refresh existing data
-		update dat data:
-			download new data
-			refresh existing data
-	display data:
-		display rtm data:
-			display schedule
-			display declarations
-			display reserves
-	rtm market:
-		place TRAS up bid
-		place TRAS down bid
-	dat market:
-		place TRAS up bidd
-		place TRAS down bid
-	display cleared bids:
-		rtm:
-			display clearedup data
-			display cleareddown data
-		dat:
-			display clearedup data
-			display cleareddown data
+buyer: 
+	home: buyer/home.html
+       update data:/button
+			update rtm data:/button
+				download new data
+				refresh existing data
+			update dat data:/button
+				download new data
+				refresh existing data
+		display data:/button
+			display rtm data:/button
+				display schedule/link
+				display declarations/link
+				display reservesup/link
+			display dat data:
+				display schedule/link
+				display declarations/link
+				display reservesup/link
+			rtm market:
+				place TRAS up bid
+				place TRAS down bid
+			dat market:
+				place TRAS up bidd
+				place TRAS down bid
+		display cleared bids:
+			rtm:
+				display clearedup data
+				display cleareddown data
+			dat:
+				display clearedup data
+				display cleareddown data
 		
-seller: home: seller/home.html
-	display bids
-		up
-		down
+seller: 
+home: seller/home.html
+
+	place bid
+		rtm
+			TRAS up
+			TRAS down
+		dat 
+			TRAS up
+			TRAS down
 	display cleared data:
 		rtm
 			display clearedupdata

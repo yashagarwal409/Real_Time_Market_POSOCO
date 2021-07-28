@@ -1,0 +1,41 @@
+http://127.0.0.1:8000/accounts/signup/buyer/ 	accounts/signup.html
+http://127.0.0.1:8000/accounts/signup/seller/ 	accounts/signup.html
+http://127.0.0.1:8000/accounts/login/		registration/login.html
+
+http://127.0.0.1:8000/buyer/update/dat		no html file. used to update database and return http response on success
+http://127.0.0.1:8000/buyer/update/rtm		no html file. used to update database and return http response on success
+
+http://127.0.0.1:8000/buyer/declaration/dat	buyer/displaydata.html
+http://127.0.0.1:8000/buyer/declaration/rtm	buyer/displaydata.html
+
+http://127.0.0.1:8000/buyer/schedule/dat	buyer/displaydata.html
+http://127.0.0.1:8000/buyer/schedule/rtm	buyer/displaydata.html
+
+http://127.0.0.1:8000/buyer/reserve/dat		buyer/displaydata.html
+http://127.0.0.1:8000/buyer/reserve/rtm		buyer/displaydata.html
+
+http://127.0.0.1:8000/buyer/runcodedatup/	buyer/datform.html on pressing submit buyer/success.html
+http://127.0.0.1:8000/buyer/runcodedatdown/	buyer/datform.html on pressing submit buyer/success.html
+
+http://127.0.0.1:8000/buyer/upreservertm	buyer/upreserve.html	on pressing submit buyer/success.html if page not allowed returns httpresponse
+http://127.0.0.1:8000/buyer/downreservertm	buyer/upreserve.html	on pressing submit buyer/success.html if page not allowed returns httpresponse
+
+http://127.0.0.1:8000/buyer/clearedreserveup/dat/ 	buyer/clearedupdata.html
+http://127.0.0.1:8000/buyer/clearedreserveup/rtm/	buyer/clearedupdata.html
+
+http://127.0.0.1:8000/buyer/clearedreservedown/dat/	buyer/cleareddowndata.html
+http://127.0.0.1:8000/buyer/clearedreservedown/rtm/ 	buyer/cleareddowndata.html
+
+http://127.0.0.1:8000/seller/home/ 		seller/home
+
+http://127.0.0.1:8000/seller/datbidlist/up/	seller/datform.html	on submit return success 
+http://127.0.0.1:8000/seller/datbidlist/down/	seller/datform.html	on submit return success
+
+http://127.0.0.1:8000/seller/rtmbid/up/		seller/placebid.html	on submit return success http response if page not allowed returns httpresponse
+http://127.0.0.1:8000/seller/rtmbid/down/	seller/placebid.html	on submit return success http response if page not allowed returns httpresponse
+
+http://127.0.0.1:8000/seller/cleardataup/dat/	seller/clearedupdata.html
+http://127.0.0.1:8000/seller/cleardataup/rtm/	seller/clearedupdata.html
+
+http://127.0.0.1:8000/seller/cleardatadown/dat	seller/cleareddowndata.html
+http://127.0.0.1:8000/seller/cleardatadown/rtm	seller/cleareddowndata.html

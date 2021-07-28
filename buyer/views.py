@@ -30,6 +30,22 @@ def home(response):
     return render(response, 'buyer/home.html', {})
 
 
+def update(response):
+    return render(response, "buyer/update.html", {})
+
+
+def display(response):
+    return render(response, 'buyer/display.html', {})
+
+
+def rtm(response):
+    return render(response, 'buyer/rtm.html', {})
+
+
+def dat(response):
+    return render(response, 'buyer/dat.html', {})
+
+
 def updatertm(response):
     mar = load_workbook(r'C:\Users\yagar\Downloads\margin.xlsx')
     Reserve.objects.filter(date=timezone.now()).delete()

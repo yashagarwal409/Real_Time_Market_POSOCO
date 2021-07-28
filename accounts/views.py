@@ -1,4 +1,4 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import *
 # Create your views here.
@@ -9,8 +9,7 @@ def buyersignup(response):
         form = BuyerRegisterForm(response.POST)
         if form.is_valid():
             form.save()
-
-        return redirect('login')
+            return redirect('login')
     else:
         form = BuyerRegisterForm()
 
@@ -22,8 +21,7 @@ def sellersignup(response):
         form = SellerRegisterForm(response.POST)
         if form.is_valid():
             form.save()
-
-        return redirect('login')
+            return redirect('login')
     else:
         form = SellerRegisterForm()
 
@@ -32,6 +30,8 @@ def sellersignup(response):
 
 def redir(response):
     if response.user.is_authenticated and response.user.is_buyer:
-        return redirect('bhome')
+        return HttpResponseRedirect("/buyer/home")
     elif response.user.is_authenticated and response.user.is_seller:
-        return redirect('shome')
+        return HttpResponseRedirect("/seller/home")
+    else:
+        return HttpResponseRedirect("/accounts/login")

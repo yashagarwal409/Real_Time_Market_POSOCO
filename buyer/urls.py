@@ -3,6 +3,10 @@ from django.urls import path
 from .views import *
 urlpatterns = [
     path('home/', home, name='bhome'),
+    path('update/', update, name='update'),
+    path('displaydata/', display, name='display'),
+    path('rtm/', rtm, name='rtm'),
+    path('dat/', dat, name='dat'),
     path('update/rtm', updatertm, name='updatertm'),
     path('update/dat', updatedat, name='updatedat'),
     path('refresh/dat', refreshdat, name='refreshdat'),

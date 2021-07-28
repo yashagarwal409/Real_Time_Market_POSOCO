@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 import glob
 import os.path
 import time
@@ -15,14 +15,17 @@ def extractdat():
     PATH = "C:\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
     driver.get("https://newwbes.nerldc.in/Report/DeclarationRldc")
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, "datepicker"))).click()
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.invisibility_of_element_located(
+        (By.XPATH, "//div[@class='blockUI blockOverlay']")))
+
+    #driver.execute_script("arguments[0].style.visibility='hidden'", element)
     date = driver.find_element_by_id("datepicker")
     date.click()
     date.clear()
     date.send_keys(value)
     date.send_keys(Keys.ENTER)
-    time.sleep(2)
+    time.sleep(5)
     WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, "btnShow"))).click()
     showdata = driver.find_element_by_id("btnShow")
