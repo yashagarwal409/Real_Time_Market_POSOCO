@@ -1,38 +1,46 @@
-{% extends "accounts/base.html" %}
+{% extends "seller/base.html" %}
 {% block title %}
 Show Cleared Up Data
 {% endblock %}
 {% block content %}
-<table>
-    <tr>
-        <td>
-            Date
-        </td>
-        <td>
-            Time Block
-        </td>
-        <td>
-            Price
-        </td>
-        <td>
-            Quantity/Volume
-        </td>
-    </tr>
-    {% for object in objects %}
-    <tr>
-        <td>
-            {{object.clearedreserve.date}}
-        </td>
-        <td>
-            {{object.clearedreserve.time_block}}
-        </td>
-        <td>
-            {{object.price}}
-        </td>
-        <td>
-            {{object.amount}}
-        </td>
-    </tr>
-    {% endfor %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time Block
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Quantity/Volume
+                        </th>
+                    </tr>
+                </thead>
+                {% for object in objects %}
+                <tr>
+                    <td>
+                        {{object.clearedreserve.date}}
+                    </td>
+                    <td>
+                        {{object.clearedreserve.time_block}}
+                    </td>
+                    <td>
+                        {{object.price}}
+                    </td>
+                    <td>
+                        {{object.amount}}
+                    </td>
+                </tr>
+                {% endfor %}
 
-    {% endblock %}
+                {% endblock %}
+        </div>
+    </div>
+</div>

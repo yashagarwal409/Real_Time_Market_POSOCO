@@ -40,17 +40,14 @@ Seller Home Page
     </div>
     <div class="row justify-content-center top2">
         <div class="col-8">
-            <a href={% url 'sellerrtm' %} class="btn btn-secondary btn-lg btn-block" role="button">Real Time Market</a>
+            <a href={% url 'rtmbid' "up" %} class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Up
+                Bid</a>
         </div>
     </div>
     <div class="row justify-content-center top2">
         <div class="col-8">
-            <a href={% url 'sellerdat' %} class="btn btn-secondary btn-lg btn-block" role="button">Day Ahead Market</a>
-        </div>
-    </div>
-    <div class="row justify-content-center top2">
-        <div class="col-8">
-            <a href={% url 'sellerdisplay' %} class="btn btn-secondary btn-lg btn-block" role="button">Display Data</a>
+            <a href={% url 'rtmbid' "down" %} class="btn btn-secondary btn-lg btn-block" role="button">Place TRAS-Down
+                Bid</a>
         </div>
     </div>
 </div>

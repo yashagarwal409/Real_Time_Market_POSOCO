@@ -24,6 +24,18 @@ def home(response):
     return render(response, 'seller/home.html', {})
 
 
+def rtm(response):
+    return render(response, 'seller/rtm.html', {})
+
+
+def dat(response):
+    return render(response, 'seller/dat.html', {})
+
+
+def displaydata(response):
+    return render(response, 'seller/displaydata.html', {})
+
+
 def placebid(response, rtmordat, upordown):
     is_rtm = False
     is_up = False
@@ -62,7 +74,7 @@ def rtmbid(response, upordown):
         user = response.user
         user.bid_set.create(
             time=response.POST.get('time'), date=response.POST.get('date'), volume=response.POST.get('volume'), price=response.POST.get('price'), is_up=is_up, is_down=is_down, is_rtm=True, is_dat=False)
-        return HttpResponse("Data Entered into the Database successfully!")
+        return render(response, 'buyer/message.html', {"message": "The Bid has been placed successfully!"})
     objectlist = TimeBlock.objects.all()
     timelist = []
     for object in objectlist:
@@ -79,7 +91,7 @@ def rtmbid(response, upordown):
                 timeoptions=[timelist[(i+5) % 96], timelist[(i+6) % 96]])
             break
     if form == None:
-        return HttpResponse("Please login after a while. The portal is down.")
+        return render(response, 'seller/message.html', {"message": "Please login after a while. The portal is down."})
     return render(response, 'seller/placebid.html', {'form': form})
 
 
@@ -129,7 +141,7 @@ def datbidlist(response, upordown):
                 user.bid_set.create(time=time.time, date=response.POST.get(
                     'date'), volume=quantity, price=price, is_up=is_up, is_down=is_down, is_rtm=False, is_dat=True)
 
-        return HttpResponse("The data has been entered successfully.")
+        return render(response, 'buyer/message.html', {"message": "The data has been entered successfully!."})
     else:
         return render(response, "seller/datform.html", {'timeblock': TimeBlock.objects.all()})
 
@@ -145,7 +157,7 @@ def cleardataup(response, rtmordat):
     if rtmordat == "dat":
         is_dat = True
     objects = ClearEntityUp.objects.all().filter(name=user.username,
-                                                 clearedreserve__is_rtm=is_rtm, clearedreserve__is_dat=is_dat).order_by('clearedreserve__date').order_by('clearedreserve__time_block')
+                                                 clearedreserve__is_rtm=is_rtm, clearedreserve__is_dat=is_dat).order_by('clearedreserve__time_block').order_by('clearedreserve__date')
     return render(response, 'seller/clearedupdata.html', {"objects": objects})
 
 

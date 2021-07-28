@@ -1,38 +1,46 @@
-{% extends "accounts/base.html" %}
+{% extends "seller/base.html" %}
 {% block title %}
 Show Cleared Up Data
 {% endblock %}
 {% block content %}
-<table>
-    <tr>
-        <td>
-            Date
-        </td>
-        <td>
-            Time Block
-        </td>
-        <td>
-            Amount
-        </td>
-        <td>
-            Quantity
-        </td>
-    </tr>
-    {% for object in objects %}
-    <tr>
-        <td>
-            {{object.clearedreserve.date}}
-        </td>
-        <td>
-            {{object.clearedreserve.time_block}}
-        </td>
-        <td>
-            {{object.clearedreserve.mcp}}
-        </td>
-        <td>
-            {{object.amount}}
-        </td>
-    </tr>
-    {% endfor %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <table class="table">
+                <thead="thead-dark">
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time Block
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                    </tr>
+                    </thead>
+                    {% for object in objects %}
+                    <tr>
+                        <td>
+                            {{object.clearedreserve.date}}
+                        </td>
+                        <td>
+                            {{object.clearedreserve.time_block}}
+                        </td>
+                        <td>
+                            {{object.clearedreserve.mcp}}
+                        </td>
+                        <td>
+                            {{object.amount}}
+                        </td>
+                    </tr>
+                    {% endfor %}
 
-    {% endblock %}
+                    {% endblock %}
+        </div>
+    </div>
+</div>

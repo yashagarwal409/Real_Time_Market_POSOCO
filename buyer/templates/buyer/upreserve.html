@@ -5,11 +5,11 @@ Enter The Required Amount
 {% endblock %}
 {% block content %}
 <div class="container" style="height: 100vh;">
-    <div class="row align-items-center">
+    <div class="row justify-content-center">
         <div class="col-8">
             <form method="POST" action="#">
                 {% csrf_token %}
-                {{ form }}
+                {{ form|crispy }}
                 <input type="submit" value="submit" class="btn btn-primary">
             </form>
         </div>
